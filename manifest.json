@@ -3,7 +3,7 @@
   "name": "トンマナビジュアライザー",
   "version": "1.0.0",
   "description": "Webページのトーン&マナー（色・タイポグラフィ・スペーシング）を可視化するツール",
-  "permissions": ["activeTab", "scripting", "sidePanel"],
+  "permissions": ["activeTab", "tabs", "scripting", "sidePanel"],
   "action": {
     "default_title": "トンマナビジュアライザー"
   },

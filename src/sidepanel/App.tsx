@@ -50,13 +50,6 @@ export default function App() {
     return () => chrome.tabs.onActivated.removeListener(onActivated);
   }, []);
 
-  // タブ切り替え時にエラーをクリア
-  useEffect(() => {
-    if (currentTabId && currentTabId !== analyzedTabId) {
-      setError("");
-    }
-  }, [currentTabId, analyzedTabId]);
-
   // content scriptからのメッセージ受信
   useEffect(() => {
     const listener = (message: { type: string; payload?: unknown }) => {
@@ -120,6 +113,31 @@ export default function App() {
       setState(resultRef.current ? "done" : "error");
     }
   }, []);
+
+  // タブ切り替え時に自動解析
+  const prevTabIdRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    // 初回マウント時はスキップ
+    if (prevTabIdRef.current === null) {
+      prevTabIdRef.current = currentTabId;
+      return;
+    }
+
+    // タブが実際に変わった場合のみ
+    if (
+      currentTabId &&
+      currentTabId !== prevTabIdRef.current &&
+      state !== "analyzing"
+    ) {
+      prevTabIdRef.current = currentTabId;
+      setError("");
+      // 一度でも解析済みなら自動解析を実行
+      if (resultRef.current) {
+        handleAnalyze();
+      }
+    }
+  }, [currentTabId, state, handleAnalyze]);
 
   const handleStop = useCallback(async () => {
     const [tab] = await chrome.tabs.query({
