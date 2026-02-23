@@ -1,15 +1,23 @@
-const UNANALYZABLE_PATTERNS = [
-  /^chrome:\/\//,
-  /^chrome-extension:\/\//,
-  /^edge:\/\//,
-  /^about:/,
-  /^chrome\.google\.com\/webstore/,
-  /^addons\.mozilla\.org/,
-  /\.pdf$/i,
+interface UnanalyzableRule {
+  pattern: RegExp;
+  reason: string;
+}
+
+const UNANALYZABLE_RULES: UnanalyzableRule[] = [
+  { pattern: /^chrome:\/\//, reason: "Chromeの内部ページ" },
+  { pattern: /^chrome-extension:\/\//, reason: "拡張機能のページ" },
+  { pattern: /^edge:\/\//, reason: "Edgeの内部ページ" },
+  { pattern: /^about:/, reason: "ブラウザの内部ページ" },
+  { pattern: /^chrome\.google\.com\/webstore/, reason: "Chrome ウェブストア" },
+  { pattern: /^addons\.mozilla\.org/, reason: "Firefox アドオンストア" },
+  { pattern: /\.pdf$/i, reason: "PDFファイル" },
 ];
 
-function isUnanalyzable(url: string): boolean {
-  return UNANALYZABLE_PATTERNS.some((p) => p.test(url));
+function getUnanalyzableReason(url: string): string | null {
+  for (const rule of UNANALYZABLE_RULES) {
+    if (rule.pattern.test(url)) return rule.reason;
+  }
+  return null;
 }
 
 chrome.action.onClicked.addListener(async (tab) => {
@@ -40,10 +48,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 async function handleStartAnalysis(tabId: number) {
   const tab = await chrome.tabs.get(tabId);
-  if (!tab.url || isUnanalyzable(tab.url)) {
+  if (!tab.url) {
     return {
       type: "ANALYSIS_ERROR",
-      payload: "このページは解析できません（Chrome内部ページ、PDF等）",
+      payload: "ページのURLを取得できませんでした。通常のWebページに移動してから再度お試しください。",
+    };
+  }
+
+  const reason = getUnanalyzableReason(tab.url);
+  if (reason) {
+    return {
+      type: "ANALYSIS_ERROR",
+      payload: `${reason}は解析できません。通常のWebサイト（https://〜）を開いた状態で解析ボタンを押してください。`,
     };
   }
 

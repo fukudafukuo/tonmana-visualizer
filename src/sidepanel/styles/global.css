@@ -356,10 +356,15 @@ body {
 /* ── Error / Empty states ── */
 
 .error-message {
-  padding: 16px;
+  padding: 10px 12px;
+  margin-top: 8px;
   text-align: center;
   color: #ef4444;
-  font-size: 13px;
+  font-size: 12px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-md);
+  line-height: 1.5;
 }
 
 .empty-state {
@@ -376,6 +381,45 @@ body {
 
 .empty-state p {
   font-size: 13px;
+}
+
+.info-note {
+  margin-top: 16px;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  line-height: 1.6;
+}
+
+/* ── Source banner ── */
+
+.source-banner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  margin-top: 12px;
+  background: var(--accent-light);
+  border: 1px solid #bfdbfe;
+  border-radius: var(--radius-md);
+  font-size: 11px;
+  overflow: hidden;
+}
+
+.source-label {
+  flex-shrink: 0;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.source-title {
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* ── Element refs ── */

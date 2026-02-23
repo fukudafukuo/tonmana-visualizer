@@ -11,9 +11,15 @@ import { ContrastChecker } from "./components/ContrastChecker";
 
 type AppState = "idle" | "analyzing" | "done" | "error";
 
+interface SourceInfo {
+  url: string;
+  title: string;
+}
+
 export default function App() {
   const [state, setState] = useState<AppState>("idle");
   const [result, setResult] = useState<AnalysisResult | null>(null);
+  const [source, setSource] = useState<SourceInfo | null>(null);
   const [error, setError] = useState<string>("");
   const [progress, setProgress] = useState<ProgressPayload>({
     phase: "",
@@ -64,16 +70,21 @@ export default function App() {
 
       if (response?.type === "ANALYSIS_ERROR") {
         setError(response.payload as string);
-        setState("error");
+        // 前回の結果があればdone、なければerrorを表示
+        setState(result ? "done" : "error");
       } else if (response?.type === "ANALYSIS_RESULT") {
         setResult(response.payload as AnalysisResult);
+        setSource({
+          url: tab.url || "",
+          title: tab.title || "不明なページ",
+        });
         setState("done");
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "解析中にエラーが発生しました");
-      setState("error");
+      setState(result ? "done" : "error");
     }
-  }, []);
+  }, [result]);
 
   const handleStop = useCallback(async () => {
     const [tab] = await chrome.tabs.query({
@@ -105,7 +116,7 @@ export default function App() {
         onStop={handleStop}
       />
 
-      {state === "error" && (
+      {error && (
         <div className="error-message">{error}</div>
       )}
 
@@ -117,11 +128,26 @@ export default function App() {
             <br />
             色・フォント・スペーシングを解析します
           </p>
+          <div className="info-note">
+            解析は現在アクティブなタブに対して行います。
+            <br />
+            別のサイトを解析するにはタブを切り替えてから
+            <br />
+            再度解析ボタンを押してください。
+          </div>
         </div>
       )}
 
       {result && (
         <>
+          {source && (
+            <div className="source-banner">
+              <span className="source-label">解析元</span>
+              <span className="source-title" title={source.url}>
+                {source.title}
+              </span>
+            </div>
+          )}
           <StyleDNA dna={result.styleDNA} />
           <ColorPalette
             categories={result.colors}
