@@ -6,8 +6,11 @@ import { ColorPalette } from "./components/ColorPalette";
 import { Typography } from "./components/Typography";
 import { Spacing } from "./components/Spacing";
 import { Decorations } from "./components/Decorations";
+import { Gradients } from "./components/Gradients";
 import { ContentWidth } from "./components/ContentWidth";
 import { ContrastChecker } from "./components/ContrastChecker";
+import { ExportButtons } from "./components/ExportButtons";
+import { CompareView } from "./components/CompareView";
 
 type AppState = "idle" | "analyzing" | "done" | "error";
 
@@ -16,11 +19,17 @@ interface SourceInfo {
   title: string;
 }
 
+interface SavedAnalysis {
+  result: AnalysisResult;
+  name: string;
+}
+
 export default function App() {
   const [state, setState] = useState<AppState>("idle");
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [source, setSource] = useState<SourceInfo | null>(null);
   const [error, setError] = useState<string>("");
+  const [savedForCompare, setSavedForCompare] = useState<SavedAnalysis | null>(null);
   const [progress, setProgress] = useState<ProgressPayload>({
     phase: "",
     percent: 0,
@@ -215,6 +224,10 @@ export default function App() {
             categories={result.colors}
             onHighlight={handleHighlight}
           />
+          <Gradients
+            entries={result.gradients}
+            onHighlight={handleHighlight}
+          />
           <ContrastChecker pairs={result.contrastPairs} />
           <Typography
             entries={result.typography}
@@ -228,6 +241,34 @@ export default function App() {
           <Decorations
             radii={result.radii}
             shadows={result.shadows}
+          />
+
+          {savedForCompare && (
+            <CompareView
+              current={result}
+              currentName={source?.title || "現在のページ"}
+              saved={savedForCompare.result}
+              savedName={savedForCompare.name}
+              onClose={() => setSavedForCompare(null)}
+            />
+          )}
+
+          <div className="export-bar">
+            <button
+              className="export-btn"
+              onClick={() => {
+                setSavedForCompare({
+                  result,
+                  name: source?.title || "不明なページ",
+                });
+              }}
+            >
+              {savedForCompare ? "比較基準を更新" : "比較用に保存"}
+            </button>
+          </div>
+          <ExportButtons
+            result={result}
+            siteName={source?.title || ""}
           />
         </>
       )}

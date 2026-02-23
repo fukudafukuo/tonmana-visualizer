@@ -513,3 +513,248 @@ body {
 .element-ref:hover {
   text-decoration: underline;
 }
+
+/* ── Gradient ── */
+
+.gradient-row {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--bg-secondary);
+}
+
+.gradient-row:last-child {
+  border-bottom: none;
+}
+
+.gradient-preview {
+  width: 100%;
+  height: 24px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  margin-bottom: 4px;
+}
+
+.gradient-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.gradient-type-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.gradient-colors {
+  display: flex;
+  gap: 3px;
+}
+
+.gradient-color-chip {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.gradient-raw {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: "SF Mono", Monaco, monospace;
+}
+
+/* ── Font source badge ── */
+
+.font-source-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.3px;
+}
+
+.font-source-google {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.font-source-adobe {
+  background: #fce4ec;
+  color: #c62828;
+}
+
+.font-source-system {
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+}
+
+.font-source-selfhosted {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.font-source-unknown {
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+}
+
+/* ── Export ── */
+
+.export-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.export-btn {
+  flex: 1;
+  padding: 7px 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.export-btn:hover {
+  background: var(--accent-light);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ── Tone Classification ── */
+
+.tone-classification {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tone-primary {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.tone-separator {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.tone-secondary {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.tone-tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 2px;
+}
+
+.tone-tag {
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: var(--accent-light);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* ── Compare View ── */
+
+.compare-header-row {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.compare-header-row .compare-col {
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--accent);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.compare-row {
+  display: flex;
+  gap: 4px;
+  padding: 3px 0;
+  border-bottom: 1px solid var(--bg-secondary);
+}
+
+.compare-row:last-child {
+  border-bottom: none;
+}
+
+.compare-col-label {
+  width: 80px;
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.compare-col {
+  flex: 1;
+  min-width: 0;
+}
+
+.compare-value {
+  font-size: 11px;
+  font-family: "SF Mono", Monaco, monospace;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.compare-swatches {
+  display: flex;
+  gap: 2px;
+}
+
+.compare-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+}
+
+.compare-close-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 6px;
+  font-size: 10px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.compare-close-btn:hover {
+  color: #ef4444;
+  border-color: #ef4444;
+}

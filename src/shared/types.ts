@@ -40,11 +40,14 @@ export interface CategoryColors {
 
 // ── Typography Types ──
 
+export type FontSource = "Google Fonts" | "Adobe Fonts" | "System" | "Self-hosted" | "Unknown";
+
 export interface TypographyEntry {
   fontFamily: string;
   fontSize: number;
   fontWeight: number | string;
   lineHeight: string;
+  fontSource: FontSource;
   weight: number;
   percentage: number;
   representativeElements: ElementRef[];
@@ -70,6 +73,16 @@ export interface ContentWidthEntry {
   representativeElements: ElementRef[];
 }
 
+// ── Gradient Types ──
+
+export interface GradientEntry {
+  type: "linear" | "radial" | "conic";
+  raw: string;
+  colors: string[];
+  count: number;
+  representativeElements: ElementRef[];
+}
+
 // ── Decoration Types ──
 
 export interface RadiusEntry {
@@ -85,6 +98,12 @@ export interface ShadowEntry {
 
 // ── Style DNA ──
 
+export interface ToneClassification {
+  primary: string;
+  secondary: string;
+  tags: string[];
+}
+
 export interface StyleDNA {
   background: { label: string; hex: string }[];
   text: { label: string; hex: string }[];
@@ -93,6 +112,7 @@ export interface StyleDNA {
   spacings: number[];
   radii: number[];
   shadowCount: number;
+  tone?: ToneClassification;
 }
 
 // ── Contrast ──
@@ -107,6 +127,7 @@ export interface ContrastPair {
 
 export interface AnalysisResult {
   colors: CategoryColors[];
+  gradients: GradientEntry[];
   typography: TypographyEntry[];
   spacing: SpacingEntry[];
   contentWidths: ContentWidthEntry[];

@@ -21,6 +21,21 @@ export function StyleDNA({ dna }: Props) {
           Style DNA
         </div>
 
+        {dna.tone && (
+          <div className="tone-classification">
+            <span className="tone-primary">{dna.tone.primary}</span>
+            <span className="tone-separator">/</span>
+            <span className="tone-secondary">{dna.tone.secondary}</span>
+            {dna.tone.tags.length > 0 && (
+              <div className="tone-tags">
+                {dna.tone.tags.map((tag, i) => (
+                  <span key={i} className="tone-tag">{tag}</span>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {dna.background.length > 0 && (
           <DNAColorSection label="Background" colors={dna.background} />
         )}

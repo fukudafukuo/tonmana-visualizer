@@ -1,6 +1,14 @@
 import React, { useState } from "react";
-import type { TypographyEntry } from "../../shared/types";
+import type { TypographyEntry, FontSource } from "../../shared/types";
 import { CopyableValue } from "./CopyableValue";
+
+const SOURCE_CLASS: Record<FontSource, string> = {
+  "Google Fonts": "font-source-google",
+  "Adobe Fonts": "font-source-adobe",
+  "System": "font-source-system",
+  "Self-hosted": "font-source-selfhosted",
+  "Unknown": "font-source-unknown",
+};
 
 interface Props {
   entries: TypographyEntry[];
@@ -41,6 +49,11 @@ export function Typography({ entries, onHighlight }: Props) {
                     {entry.lineHeight} — {entry.percentage}%
                   </span>
                 </CopyableValue>
+                {entry.fontSource && entry.fontSource !== "Unknown" && (
+                  <span className={`font-source-badge ${SOURCE_CLASS[entry.fontSource]}`}>
+                    {entry.fontSource}
+                  </span>
+                )}
               </div>
               {entry.representativeElements.length > 0 && (
                 <div className="element-refs">

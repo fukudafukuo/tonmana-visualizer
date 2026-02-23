@@ -7,8 +7,10 @@ import { walkVisibleElements } from "./utils/dom-walker";
 import { extractColors } from "./extractors/colors";
 import { extractTypography } from "./extractors/typography";
 import { extractSpacing } from "./extractors/spacing";
+import { extractGradients } from "./extractors/gradients";
 import { extractDecorations } from "./extractors/decorations";
 import { extractContentWidths } from "./extractors/content-width";
+import { classifyTone } from "./extractors/tone-classifier";
 
 let abortController: AbortController | null = null;
 let highlightOverlay: HTMLElement | null = null;
@@ -36,6 +38,11 @@ async function runAnalysis() {
     sendProgress("色を抽出中...", 40);
     const { categories, contrastPairs, styleDNA: colorDNA } =
       extractColors(elements);
+
+    if (signal.aborted) return;
+
+    sendProgress("グラデーションを抽出中...", 50);
+    const gradients = extractGradients(elements);
 
     if (signal.aborted) return;
 
@@ -71,6 +78,7 @@ async function runAnalysis() {
 
     const result: AnalysisResult = {
       colors: categories,
+      gradients,
       typography,
       spacing,
       contentWidths,
@@ -84,6 +92,14 @@ async function runAnalysis() {
         spacings: spacings.slice(0, 8),
         radii: radiiValues.slice(0, 4),
         shadowCount: shadows.length,
+        tone: classifyTone({
+          colors: categories,
+          fontSizes: fontSizes.slice(0, 6),
+          spacings: spacings.slice(0, 8),
+          radii: radiiValues.slice(0, 4),
+          shadowCount: shadows.length,
+          gradientCount: gradients.length,
+        }),
       },
       contrastPairs,
       elementCount: elements.length,
