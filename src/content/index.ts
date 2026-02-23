@@ -20,14 +20,14 @@ function sendProgress(phase: string, percent: number) {
   });
 }
 
-function runAnalysis() {
+async function runAnalysis() {
   abortController = new AbortController();
   const { signal } = abortController;
 
   try {
     // Phase 1: DOM walk
     sendProgress("DOM走査中...", 0);
-    const elements = walkVisibleElements(signal, (p) => {
+    const elements = await walkVisibleElements(signal, (p) => {
       sendProgress("DOM走査中...", Math.round(p * 0.4));
     });
 

@@ -27,7 +27,8 @@ export function extractSpacing(elements: VisibleElement[]): SpacingEntry[] {
       );
       const val = parseFloat(raw);
       if (!isNaN(val) && val > 0 && val < 1000) {
-        const rounded = Math.round(val);
+        // 4px単位に丸めてスケールを見やすくする
+        const rounded = Math.round(val / 4) * 4 || 4;
         map.set(rounded, (map.get(rounded) || 0) + 1);
       }
     }

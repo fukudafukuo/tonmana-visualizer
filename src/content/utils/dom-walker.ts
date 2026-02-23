@@ -21,10 +21,17 @@ const SKIP_TAGS = new Set([
   "HR",
 ]);
 
-export function walkVisibleElements(
+// 一度に処理する要素数（これごとにUIスレッドを解放）
+const CHUNK_SIZE = 500;
+
+function yieldToMain(): Promise<void> {
+  return new Promise((resolve) => requestAnimationFrame(() => resolve()));
+}
+
+export async function walkVisibleElements(
   signal?: AbortSignal,
   onProgress?: (percent: number) => void
-): VisibleElement[] {
+): Promise<VisibleElement[]> {
   const vw = window.innerWidth;
   const vh = window.innerHeight;
   const all = document.body.querySelectorAll("*");
@@ -33,6 +40,12 @@ export function walkVisibleElements(
 
   for (let i = 0; i < total; i++) {
     if (signal?.aborted) break;
+
+    // チャンクごとにUIスレッドを解放
+    if (i > 0 && i % CHUNK_SIZE === 0) {
+      await yieldToMain();
+      if (signal?.aborted) break;
+    }
 
     if (onProgress && i % 200 === 0) {
       onProgress(Math.round((i / total) * 100));

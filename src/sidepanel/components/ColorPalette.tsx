@@ -15,16 +15,47 @@ const CATEGORY_LABELS: Record<ColorCategory, string> = {
   shadow: "シャドウ (Shadow)",
 };
 
+const BASIC_CATEGORIES: ColorCategory[] = ["background", "text"];
+const ADVANCED_CATEGORIES: ColorCategory[] = ["border", "outline", "shadow"];
+
 export function ColorPalette({ categories, onHighlight }: Props) {
+  const [showAdvanced, setShowAdvanced] = useState(false);
+
+  const basicCats = categories.filter((c) =>
+    BASIC_CATEGORIES.includes(c.category)
+  );
+  const advancedCats = categories.filter((c) =>
+    ADVANCED_CATEGORIES.includes(c.category)
+  );
+  const hasAdvanced = advancedCats.some((c) => c.colors.length > 0);
+
   return (
     <>
-      {categories.map((cat) => (
+      {basicCats.map((cat) => (
         <ColorSection
           key={cat.category}
           category={cat}
           onHighlight={onHighlight}
         />
       ))}
+      {hasAdvanced && (
+        <div className="advanced-toggle-wrapper">
+          <button
+            className="advanced-toggle"
+            onClick={() => setShowAdvanced(!showAdvanced)}
+          >
+            {showAdvanced ? "詳細カテゴリを閉じる" : "詳細カテゴリを表示 (Border / Outline / Shadow)"}
+          </button>
+        </div>
+      )}
+      {showAdvanced &&
+        advancedCats.map((cat) => (
+          <ColorSection
+            key={cat.category}
+            category={cat}
+            onHighlight={onHighlight}
+          />
+        ))}
     </>
   );
 }

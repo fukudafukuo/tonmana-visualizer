@@ -222,6 +222,47 @@ body {
   color: var(--text-muted);
 }
 
+.chip-scale {
+  border: 1px solid var(--accent-light);
+  background: var(--accent-light);
+}
+
+.chip-outlier {
+  border: 1px dashed var(--border);
+  opacity: 0.7;
+}
+
+.spacing-scale-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+/* ── Advanced toggle ── */
+
+.advanced-toggle-wrapper {
+  margin-top: 8px;
+  text-align: center;
+}
+
+.advanced-toggle {
+  background: none;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  padding: 6px 12px;
+  font-size: 11px;
+  color: var(--text-muted);
+  cursor: pointer;
+  width: 100%;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.advanced-toggle:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
 /* ── Content Width sub-label ── */
 
 .cw-sub-label {
@@ -252,6 +293,35 @@ body {
 .contrast-ratio {
   font-family: "SF Mono", Monaco, monospace;
   font-size: 12px;
+}
+
+.wcag-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  letter-spacing: 0.3px;
+}
+
+.badge-aaa {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.badge-aa {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.badge-aa-large {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badge-fail {
+  background: #fee2e2;
+  color: #991b1b;
 }
 
 /* ── Style DNA ── */
