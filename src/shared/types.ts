@@ -121,6 +121,7 @@ export interface AnalysisResult {
 // ── Messaging ──
 
 export type MessageType =
+  | "PING"
   | "START_ANALYSIS"
   | "STOP_ANALYSIS"
   | "ANALYSIS_PROGRESS"

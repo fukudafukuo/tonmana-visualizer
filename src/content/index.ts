@@ -145,8 +145,11 @@ function clearHighlights() {
 
 // Listen for messages
 chrome.runtime.onMessage.addListener(
-  (message: Message, _sender, _sendResponse) => {
+  (message: Message, _sender, sendResponse) => {
     switch (message.type) {
+      case "PING":
+        sendResponse({ pong: true });
+        break;
       case "START_ANALYSIS":
         runAnalysis();
         break;

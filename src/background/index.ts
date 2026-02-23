@@ -46,9 +46,23 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   return false;
 });
 
+// 実行中の解析を追跡し、新しい解析開始時に前回を中断
+let activeAnalysisTabId: number | null = null;
+
 async function handleStartAnalysis(tabId: number) {
+  // 前回の解析が別タブで実行中なら中断
+  if (activeAnalysisTabId !== null && activeAnalysisTabId !== tabId) {
+    try {
+      chrome.tabs.sendMessage(activeAnalysisTabId, { type: "STOP_ANALYSIS" });
+    } catch {
+      // 旧タブが閉じている場合は無視
+    }
+  }
+  activeAnalysisTabId = tabId;
+
   const tab = await chrome.tabs.get(tabId);
   if (!tab.url) {
+    activeAnalysisTabId = null;
     return {
       type: "ANALYSIS_ERROR",
       payload: "ページのURLを取得できませんでした。通常のWebページに移動してから再度お試しください。",
@@ -57,6 +71,7 @@ async function handleStartAnalysis(tabId: number) {
 
   const reason = getUnanalyzableReason(tab.url);
   if (reason) {
+    activeAnalysisTabId = null;
     return {
       type: "ANALYSIS_ERROR",
       payload: `${reason}は解析できません。通常のWebサイト（https://〜）を開いた状態で解析ボタンを押してください。`,
@@ -74,9 +89,15 @@ async function handleStartAnalysis(tabId: number) {
   }
 
   return new Promise((resolve) => {
-    const listener = (msg: { type: string; payload?: unknown }) => {
+    const listener = (
+      msg: { type: string; payload?: unknown },
+      sender: chrome.runtime.MessageSender
+    ) => {
+      // このタブからの結果メッセージのみ処理
+      if (sender.tab?.id !== tabId) return;
       if (msg.type === "ANALYSIS_RESULT" || msg.type === "ANALYSIS_ERROR") {
         chrome.runtime.onMessage.removeListener(listener);
+        activeAnalysisTabId = null;
         resolve(msg);
       }
     };
