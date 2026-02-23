@@ -8,6 +8,7 @@ import { extractColors } from "./extractors/colors";
 import { extractTypography } from "./extractors/typography";
 import { extractSpacing } from "./extractors/spacing";
 import { extractDecorations } from "./extractors/decorations";
+import { extractContentWidths } from "./extractors/content-width";
 
 let abortController: AbortController | null = null;
 let highlightOverlay: HTMLElement | null = null;
@@ -48,7 +49,12 @@ function runAnalysis() {
 
     if (signal.aborted) return;
 
-    sendProgress("装飾を解析中...", 85);
+    sendProgress("コンテンツ幅を解析中...", 82);
+    const contentWidths = extractContentWidths(elements);
+
+    if (signal.aborted) return;
+
+    sendProgress("装飾を解析中...", 88);
     const { radii, shadows } = extractDecorations(elements);
 
     if (signal.aborted) return;
@@ -67,6 +73,7 @@ function runAnalysis() {
       colors: categories,
       typography,
       spacing,
+      contentWidths,
       radii,
       shadows,
       styleDNA: {

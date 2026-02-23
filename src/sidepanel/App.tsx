@@ -6,6 +6,7 @@ import { ColorPalette } from "./components/ColorPalette";
 import { Typography } from "./components/Typography";
 import { Spacing } from "./components/Spacing";
 import { Decorations } from "./components/Decorations";
+import { ContentWidth } from "./components/ContentWidth";
 import { ContrastChecker } from "./components/ContrastChecker";
 
 type AppState = "idle" | "analyzing" | "done" | "error";
@@ -132,6 +133,10 @@ export default function App() {
             onHighlight={handleHighlight}
           />
           <Spacing entries={result.spacing} />
+          <ContentWidth
+            entries={result.contentWidths}
+            onHighlight={handleHighlight}
+          />
           <Decorations
             radii={result.radii}
             shadows={result.shadows}

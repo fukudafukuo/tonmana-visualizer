@@ -59,6 +59,17 @@ export interface SpacingEntry {
   percentage: number;
 }
 
+// ── Content Width Types ──
+
+export interface ContentWidthEntry {
+  value: number;
+  unit: string;
+  property: "width" | "max-width";
+  count: number;
+  percentage: number;
+  representativeElements: ElementRef[];
+}
+
 // ── Decoration Types ──
 
 export interface RadiusEntry {
@@ -98,6 +109,7 @@ export interface AnalysisResult {
   colors: CategoryColors[];
   typography: TypographyEntry[];
   spacing: SpacingEntry[];
+  contentWidths: ContentWidthEntry[];
   radii: RadiusEntry[];
   shadows: ShadowEntry[];
   styleDNA: StyleDNA;
