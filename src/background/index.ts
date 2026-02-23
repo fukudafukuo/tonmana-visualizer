@@ -61,31 +61,35 @@ async function handleStartAnalysis(tabId: number) {
   activeAnalysisTabId = tabId;
 
   const tab = await chrome.tabs.get(tabId);
-  if (!tab.url) {
-    activeAnalysisTabId = null;
-    return {
-      type: "ANALYSIS_ERROR",
-      payload: "ページのURLを取得できませんでした。通常のWebページに移動してから再度お試しください。",
-    };
-  }
 
-  const reason = getUnanalyzableReason(tab.url);
-  if (reason) {
-    activeAnalysisTabId = null;
-    return {
-      type: "ANALYSIS_ERROR",
-      payload: `${reason}は解析できません。通常のWebサイト（https://〜）を開いた状態で解析ボタンを押してください。`,
-    };
+  // URLが取得できる場合のみ解析不可チェックを行う
+  if (tab.url) {
+    const reason = getUnanalyzableReason(tab.url);
+    if (reason) {
+      activeAnalysisTabId = null;
+      return {
+        type: "ANALYSIS_ERROR",
+        payload: `${reason}は解析できません。通常のWebサイト（https://〜）を開いた状態で解析ボタンを押してください。`,
+      };
+    }
   }
 
   // content scriptが既に注入済みか確認し、未注入なら注入
   try {
     await chrome.tabs.sendMessage(tabId, { type: "PING" });
   } catch {
-    await chrome.scripting.executeScript({
-      target: { tabId },
-      files: ["content.js"],
-    });
+    try {
+      await chrome.scripting.executeScript({
+        target: { tabId },
+        files: ["content.js"],
+      });
+    } catch {
+      activeAnalysisTabId = null;
+      return {
+        type: "ANALYSIS_ERROR",
+        payload: "このページには解析スクリプトを挿入できません。通常のWebサイト（https://〜）を開いた状態で再度お試しください。",
+      };
+    }
   }
 
   return new Promise((resolve) => {
