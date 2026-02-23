@@ -63,10 +63,15 @@ async function handleStartAnalysis(tabId: number) {
     };
   }
 
-  await chrome.scripting.executeScript({
-    target: { tabId },
-    files: ["content.js"],
-  });
+  // content scriptが既に注入済みか確認し、未注入なら注入
+  try {
+    await chrome.tabs.sendMessage(tabId, { type: "PING" });
+  } catch {
+    await chrome.scripting.executeScript({
+      target: { tabId },
+      files: ["content.js"],
+    });
+  }
 
   return new Promise((resolve) => {
     const listener = (msg: { type: string; payload?: unknown }) => {
