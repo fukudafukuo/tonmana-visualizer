@@ -89,18 +89,38 @@ async function handleStartAnalysis(tabId: number) {
   }
 
   return new Promise((resolve) => {
+    const cleanup = () => {
+      chrome.runtime.onMessage.removeListener(listener);
+      clearTimeout(timeout);
+      activeAnalysisTabId = null;
+    };
+
     const listener = (
       msg: { type: string; payload?: unknown },
       sender: chrome.runtime.MessageSender
     ) => {
       // このタブからの結果メッセージのみ処理
       if (sender.tab?.id !== tabId) return;
-      if (msg.type === "ANALYSIS_RESULT" || msg.type === "ANALYSIS_ERROR") {
-        chrome.runtime.onMessage.removeListener(listener);
-        activeAnalysisTabId = null;
+      if (
+        msg.type === "ANALYSIS_RESULT" ||
+        msg.type === "ANALYSIS_ERROR" ||
+        msg.type === "ANALYSIS_CANCELED"
+      ) {
+        cleanup();
         resolve(msg);
       }
     };
+
+    // 30秒タイムアウト保険
+    const timeout = setTimeout(() => {
+      chrome.runtime.onMessage.removeListener(listener);
+      activeAnalysisTabId = null;
+      resolve({
+        type: "ANALYSIS_ERROR",
+        payload: "解析がタイムアウトしました。ページを再読み込みしてお試しください。",
+      });
+    }, 30_000);
+
     chrome.runtime.onMessage.addListener(listener);
 
     chrome.tabs.sendMessage(tabId, { type: "START_ANALYSIS" });

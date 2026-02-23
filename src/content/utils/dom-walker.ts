@@ -49,7 +49,7 @@ export function walkVisibleElements(
     if (rect.right < 0 || rect.left > vw) continue;
 
     const cs = window.getComputedStyle(el);
-    if (cs.display === "none" || cs.visibility === "hidden" || cs.opacity === "0") {
+    if (cs.display === "none" || cs.visibility === "hidden" || parseFloat(cs.opacity) <= 0) {
       continue;
     }
 
@@ -83,9 +83,26 @@ export function walkVisibleElements(
 
 export function elementToRef(el: Element): ElementRef {
   const tag = el.tagName.toLowerCase();
-  const cls = el.className && typeof el.className === "string"
-    ? "." + el.className.trim().split(/\s+/).slice(0, 2).join(".")
-    : "";
-  const selector = (tag + cls).slice(0, 40);
-  return { selector, index: 0 };
+  const classes = el.className && typeof el.className === "string"
+    ? el.className.trim().split(/\s+/).slice(0, 2)
+    : [];
+  const selector = classes.length > 0
+    ? tag + "." + classes.map((c) => CSS.escape(c)).join(".")
+    : tag;
+
+  // selectorで実際にマッチする要素群の中でのインデックスを計算
+  let index = 0;
+  try {
+    const matches = document.querySelectorAll(selector);
+    for (let i = 0; i < matches.length; i++) {
+      if (matches[i] === el) {
+        index = i;
+        break;
+      }
+    }
+  } catch {
+    // セレクタが無効な場合はindex: 0のまま
+  }
+
+  return { selector, index };
 }

@@ -109,8 +109,18 @@ function runAnalysis() {
 function highlightElement(payload: HighlightPayload) {
   clearHighlights();
 
-  const els = document.querySelectorAll(payload.selector.split(".")[0] || "*");
-  const el = els[payload.index] || els[0];
+  let el: Element | null = null;
+  try {
+    const els = document.querySelectorAll(payload.selector);
+    el = els[payload.index] || els[0] || null;
+  } catch {
+    // セレクタが無効な場合はタグ名だけで試行
+    const tag = payload.selector.replace(/[.#\[\]():].*/, "");
+    if (tag) {
+      const els = document.querySelectorAll(tag);
+      el = els[payload.index] || els[0] || null;
+    }
+  }
   if (!el) return;
 
   el.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -158,6 +168,9 @@ chrome.runtime.onMessage.addListener(
           abortController.abort();
           abortController = null;
         }
+        chrome.runtime.sendMessage({
+          type: "ANALYSIS_CANCELED",
+        });
         break;
       case "HIGHLIGHT_ELEMENT":
         highlightElement(message.payload as HighlightPayload);

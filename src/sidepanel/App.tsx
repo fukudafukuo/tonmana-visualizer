@@ -72,6 +72,9 @@ export default function App() {
           setError(message.payload as string);
           setState(resultRef.current ? "done" : "error");
           break;
+        case "ANALYSIS_CANCELED":
+          setState(resultRef.current ? "done" : "idle");
+          break;
       }
     };
 
