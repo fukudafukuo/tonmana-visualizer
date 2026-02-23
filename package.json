@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite build --watch",
     "build": "tsc && vite build",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "package": "npm run build && rm -f tonmana-visualizer.zip && cd dist && zip -r ../tonmana-visualizer.zip . && echo 'Packaged: tonmana-visualizer.zip'"
   },
   "dependencies": {
     "react": "^18.3.1",

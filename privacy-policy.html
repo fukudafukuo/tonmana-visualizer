@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>プライバシーポリシー — トンマナビジュアライザー</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+      line-height: 1.8;
+      color: #333;
+      background: #fafafa;
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 12px;
+      padding: 2.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #111;
+    }
+    .subtitle {
+      font-size: 0.9rem;
+      color: #888;
+      margin-bottom: 2rem;
+    }
+    h2 {
+      font-size: 1.1rem;
+      margin-top: 1.8rem;
+      margin-bottom: 0.6rem;
+      color: #222;
+    }
+    p {
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+    ul {
+      margin: 0.5rem 0 1rem 1.5rem;
+      font-size: 0.95rem;
+    }
+    li { margin-bottom: 0.4rem; }
+    .lang-toggle {
+      text-align: right;
+      margin-bottom: 1rem;
+    }
+    .lang-toggle a {
+      color: #4A6CF7;
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+    .lang-toggle a:hover { text-decoration: underline; }
+    .section-en { display: none; }
+    footer {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid #eee;
+      font-size: 0.8rem;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="lang-toggle">
+      <a href="#" onclick="toggleLang(event)">English / 日本語</a>
+    </div>
+
+    <!-- 日本語 -->
+    <div class="section-ja">
+      <h1>プライバシーポリシー</h1>
+      <p class="subtitle">トンマナビジュアライザー Chrome 拡張機能</p>
+
+      <h2>1. 基本方針</h2>
+      <p>トンマナビジュアライザー（以下「本拡張機能」）は、ユーザーのプライバシーを最大限に尊重します。本拡張機能は、個人情報の収集、保存、送信を一切行いません。</p>
+
+      <h2>2. データの取り扱い</h2>
+      <p>本拡張機能は、ユーザーが閲覧中のWebページのスタイル情報（CSS）を解析する機能を提供します。この処理に関して以下の方針を遵守します。</p>
+      <ul>
+        <li>すべての解析処理はユーザーのブラウザ内（ローカル）でのみ実行されます</li>
+        <li>解析結果を含むいかなるデータも外部サーバーに送信されません</li>
+        <li>ユーザーの閲覧履歴、個人情報、アカウント情報等を収集しません</li>
+        <li>Cookie やローカルストレージを使用しません</li>
+      </ul>
+
+      <h2>3. 権限について</h2>
+      <p>本拡張機能は以下の Chrome 権限を使用します。これらはすべて、ページのスタイル解析機能の実現に必要なものです。</p>
+      <ul>
+        <li><strong>activeTab</strong>: ユーザーが操作中のタブのスタイル情報にアクセスするため</li>
+        <li><strong>tabs</strong>: タブの切り替えを検知し、解析対象を追跡するため</li>
+        <li><strong>scripting</strong>: ページ内でスタイル解析スクリプトを実行するため</li>
+        <li><strong>sidePanel</strong>: 解析結果をサイドパネルに表示するため</li>
+        <li><strong>host_permissions</strong>: 任意のWebページでスタイル解析を実行可能にするため</li>
+      </ul>
+
+      <h2>4. 第三者への提供</h2>
+      <p>本拡張機能はデータを収集しないため、第三者へのデータ提供は一切ありません。</p>
+
+      <h2>5. お問い合わせ</h2>
+      <p>本プライバシーポリシーに関するご質問は、Chrome Web Store の拡張機能ページからお問い合わせください。</p>
+
+      <h2>6. 変更について</h2>
+      <p>本プライバシーポリシーは、必要に応じて更新される場合があります。重要な変更がある場合は、拡張機能のアップデートを通じてお知らせします。</p>
+    </div>
+
+    <!-- English -->
+    <div class="section-en">
+      <h1>Privacy Policy</h1>
+      <p class="subtitle">Tonmana Visualizer — Chrome Extension</p>
+
+      <h2>1. Overview</h2>
+      <p>Tonmana Visualizer ("the Extension") is committed to protecting your privacy. The Extension does not collect, store, or transmit any personal information.</p>
+
+      <h2>2. Data Handling</h2>
+      <p>The Extension analyzes CSS style information of web pages you are currently viewing. Regarding this process:</p>
+      <ul>
+        <li>All analysis is performed entirely within your browser (locally)</li>
+        <li>No data, including analysis results, is transmitted to any external server</li>
+        <li>We do not collect browsing history, personal information, or account credentials</li>
+        <li>No cookies or local storage are used</li>
+      </ul>
+
+      <h2>3. Permissions</h2>
+      <p>The Extension uses the following Chrome permissions, all of which are necessary for its style analysis functionality:</p>
+      <ul>
+        <li><strong>activeTab</strong>: To access style information of the tab you are actively using</li>
+        <li><strong>tabs</strong>: To detect tab switching and track analysis targets</li>
+        <li><strong>scripting</strong>: To execute style analysis scripts within pages</li>
+        <li><strong>sidePanel</strong>: To display analysis results in a side panel</li>
+        <li><strong>host_permissions</strong>: To enable style analysis on any web page</li>
+      </ul>
+
+      <h2>4. Third-Party Sharing</h2>
+      <p>Since the Extension does not collect any data, there is no data sharing with third parties.</p>
+
+      <h2>5. Contact</h2>
+      <p>For questions regarding this privacy policy, please contact us through the Extension's Chrome Web Store page.</p>
+
+      <h2>6. Changes</h2>
+      <p>This privacy policy may be updated as needed. Significant changes will be communicated through extension updates.</p>
+    </div>
+
+    <footer>
+      最終更新 / Last updated: 2026-02-23
+    </footer>
+  </div>
+
+  <script>
+    function toggleLang(e) {
+      e.preventDefault();
+      const ja = document.querySelector('.section-ja');
+      const en = document.querySelector('.section-en');
+      if (ja.style.display === 'none') {
+        ja.style.display = 'block';
+        en.style.display = 'none';
+      } else {
+        ja.style.display = 'none';
+        en.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>
